@@ -1,36 +1,56 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Learnly
 
-## Getting Started
+A personal learning library. One creator organizes educational YouTube videos into simple collections and shares them with family, friends, or anyone through a public link.
 
-First, run the development server:
+**Upload elsewhere → organize → watch → learn → share.**
+
+No accounts, no payments, no database — everything lives in one TypeScript file.
+
+## Stack
+
+- [Next.js](https://nextjs.org) 16 (App Router, static generation)
+- [TypeScript](https://www.typescriptlang.org)
+- [Tailwind CSS](https://tailwindcss.com) v4
+- [shadcn/ui](https://ui.shadcn.com)
+- [next-themes](https://github.com/pacocoursey/next-themes) for dark mode
+
+## Getting started
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm install
+pnpm dev        # http://localhost:3000
+pnpm build      # production build
+pnpm start      # serve the production build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Adding a collection
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Everything the site displays comes from [`data/collections.ts`](data/collections.ts). Two ways to add content:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. **By hand** — copy an existing collection object and edit it. Each lesson needs a `title`, `youtubeId`, `duration` (in seconds), and a short `description`. Thumbnails are optional: a collection falls back to its first lesson's YouTube thumbnail automatically.
+2. **With the creator tool** — visit [`/create`](http://localhost:3000/create), fill in the form, and paste the generated code into `data/collections.ts`.
 
-## Learn More
+Set `featured: true` on a collection to show it on the home page. Categories come from the canonical list in [`data/types.ts`](data/types.ts) — add your own there if needed.
 
-To learn more about Next.js, take a look at the following resources:
+## Project structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+app/                    Routes: home, library, collection, lesson, about, create
+components/             Navbar, cards, filters, YouTube player, lesson sidebar…
+data/                   types.ts + collections.ts (all content lives here)
+lib/                    Query helpers, progress storage, utils
+hooks/                  useCollectionProgress (localStorage progress)
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Features
 
-## Deploy on Vercel
+- 📚 Collections with lesson lists, durations, and resource links
+- 🔍 Client-side search, category filters, and sorting on the library page
+- ▶️ YouTube videos embedded directly (privacy-enhanced `youtube-nocookie`)
+- 🌗 Dark mode toggle
+- ✅ Lightweight local progress: completed lessons and last-opened lesson, stored in `localStorage` (no accounts)
+- 📱 Fully responsive — the lesson sidebar becomes a drawer on mobile
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Deploying
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The site is fully static (no server code), so any Next.js host works. The easiest option is [Vercel](https://vercel.com): import the repo and deploy — no environment variables required.
