@@ -123,14 +123,20 @@ export default async function LessonPage({
             className="mt-10 grid grid-cols-2 gap-3 border-t pt-6"
           >
             {prev ? (
-              <Button variant="outline" className="h-auto justify-start py-3 text-left" asChild>
+              <Button
+                variant="outline"
+                className="h-auto min-w-0 justify-start whitespace-normal py-3 text-left"
+                asChild
+              >
                 <Link href={`/library/${collection.slug}/${prev.id}`}>
-                  <span className="flex flex-col items-start gap-0.5">
+                  <span className="flex min-w-0 flex-col items-start gap-0.5">
                     <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
                       <ArrowLeft className="size-3.5" aria-hidden />
                       Previous Lesson
                     </span>
-                    <span className="text-sm font-medium">{prev.title}</span>
+                    <span className="text-sm font-medium text-balance">
+                      {prev.title}
+                    </span>
                   </span>
                 </Link>
               </Button>
@@ -140,16 +146,18 @@ export default async function LessonPage({
             {next && (
               <Button
                 variant="outline"
-                className="h-auto justify-end py-3 text-right"
+                className="h-auto min-w-0 justify-end whitespace-normal py-3 text-right"
                 asChild
               >
                 <Link href={`/library/${collection.slug}/${next.id}`}>
-                  <span className="flex flex-col items-end gap-0.5">
+                  <span className="flex min-w-0 flex-col items-end gap-0.5">
                     <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
                       Next Lesson
                       <ArrowRight className="size-3.5" aria-hidden />
                     </span>
-                    <span className="text-sm font-medium">{next.title}</span>
+                    <span className="text-sm font-medium text-balance">
+                      {next.title}
+                    </span>
                   </span>
                 </Link>
               </Button>
