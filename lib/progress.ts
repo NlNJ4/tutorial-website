@@ -1,6 +1,9 @@
 /**
  * Lightweight local progress tracking — no accounts, just localStorage.
  * Shape: { [collectionSlug]: { completed: string[], lastLessonId?: string } }
+ *
+ * Exposed as an external store so every subscribed component (badges,
+ * lesson lists, the complete-toggle) stays in sync after any write.
  */
 
 const STORAGE_KEY = "learnly:progress";
@@ -12,11 +15,16 @@ export interface CollectionProgress {
 
 type ProgressMap = Record<string, CollectionProgress>;
 
+const listeners = new Set<() => void>();
+
+function emit() {
+  for (const listener of listeners) listener();
+}
+
 function readAll(): ProgressMap {
   if (typeof window === "undefined") return {};
   try {
-    const raw = window.localStorage.getItem(STORAGE_KEY);
-    return raw ? (JSON.parse(raw) as ProgressMap) : {};
+    return JSON.parse(window.localStorage.getItem(STORAGE_KEY) ?? "{}") as ProgressMap;
   } catch {
     return {};
   }
@@ -28,14 +36,44 @@ function writeAll(map: ProgressMap): void {
   } catch {
     // Storage full or unavailable — progress is best-effort by design.
   }
+  emit();
+}
+
+function subscribe(listener: () => void): () => void {
+  listeners.add(listener);
+  return () => {
+    listeners.delete(listener);
+  };
+}
+
+/** Raw string snapshot — stable between renders until the data changes. */
+function getSnapshot(): string {
+  if (typeof window === "undefined") return "";
+  try {
+    return window.localStorage.getItem(STORAGE_KEY) ?? "";
+  } catch {
+    return "";
+  }
+}
+
+function getServerSnapshot(): string {
+  return "";
+}
+
+export const progressStore = { subscribe, getSnapshot, getServerSnapshot };
+
+export function parseProgress(raw: string): ProgressMap {
+  if (!raw) return {};
+  try {
+    const parsed = JSON.parse(raw) as ProgressMap;
+    return parsed && typeof parsed === "object" ? parsed : {};
+  } catch {
+    return {};
+  }
 }
 
 export function getCollectionProgress(slug: string): CollectionProgress {
   return readAll()[slug] ?? { completed: [] };
-}
-
-export function isLessonComplete(slug: string, lessonId: string): boolean {
-  return getCollectionProgress(slug).completed.includes(lessonId);
 }
 
 export function setLessonComplete(

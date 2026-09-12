@@ -128,7 +128,7 @@ export default function CreatePage() {
     lines.push("    lessons: [");
     parsed
       .filter((p) => p.lesson.title.trim() && p.id)
-      .forEach(({ lesson, id, duration }, index, kept) => {
+      .forEach(({ lesson, id, duration }, index) => {
         lines.push("      {");
         lines.push(`        id: ${JSON.stringify(slugifyTitle(lesson.title) || `lesson-${index + 1}`)},`);
         lines.push(`        title: ${JSON.stringify(lesson.title.trim())},`);

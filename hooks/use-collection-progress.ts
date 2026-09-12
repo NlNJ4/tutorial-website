@@ -1,36 +1,49 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useMemo, useSyncExternalStore } from "react";
 import type { CollectionProgress } from "@/lib/progress";
-import { getCollectionProgress, setLessonComplete } from "@/lib/progress";
-
-const EMPTY: CollectionProgress = { completed: [] };
+import {
+  parseProgress,
+  progressStore,
+  setLessonComplete,
+} from "@/lib/progress";
 
 /**
- * Hydration-safe read of a collection's local progress. Returns null until
- * mounted so server and first client render agree.
+ * Reads a collection's local progress from the localStorage store.
+ * useSyncExternalStore keeps server and first client render in sync
+ * (empty snapshot) and updates every subscriber after any write.
  */
 export function useCollectionProgress(slug: string) {
-  const [progress, setProgress] = useState<CollectionProgress | null>(null);
+  const raw = useSyncExternalStore(
+    progressStore.subscribe,
+    progressStore.getSnapshot,
+    progressStore.getServerSnapshot
+  );
 
-  useEffect(() => {
-    setProgress(getCollectionProgress(slug));
-  }, [slug]);
+  const progress = useMemo<CollectionProgress | undefined>(
+    () => (raw ? parseProgress(raw)[slug] : undefined),
+    [raw, slug]
+  );
+
+  const completed = useMemo(() => progress?.completed ?? [], [progress]);
 
   const toggleComplete = useCallback(
     (lessonId: string, complete: boolean) => {
       setLessonComplete(slug, lessonId, complete);
-      setProgress(getCollectionProgress(slug));
     },
     [slug]
   );
 
+  const isComplete = useCallback(
+    (lessonId: string) => completed.includes(lessonId),
+    [completed]
+  );
+
   return {
     progress,
-    completed: progress?.completed ?? EMPTY.completed,
+    completed,
     lastLessonId: progress?.lastLessonId,
     toggleComplete,
-    isComplete: (lessonId: string) =>
-      (progress ?? EMPTY).completed.includes(lessonId),
+    isComplete,
   };
 }
