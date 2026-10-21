@@ -13,6 +13,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { site } from "@/data/site";
 import { cn } from "@/lib/utils";
 
 const links = [
@@ -40,7 +41,7 @@ export function Navbar() {
           <span className="flex size-7 items-center justify-center rounded-lg bg-primary text-primary-foreground">
             <GraduationCap className="size-4" />
           </span>
-          Learnly
+          {site.siteName}
         </Link>
 
         <nav className="hidden items-center gap-1 md:flex" aria-label="Main">
@@ -79,7 +80,7 @@ export function Navbar() {
                   <span className="flex size-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
                     <GraduationCap className="size-3.5" />
                   </span>
-                  Learnly
+                  {site.siteName}
                 </SheetTitle>
               </SheetHeader>
               <nav className="flex flex-col gap-1 px-4" aria-label="Mobile">

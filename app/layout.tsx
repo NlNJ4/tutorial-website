@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Footer } from "@/components/footer";
 import { Navbar } from "@/components/navbar";
 import { ThemeProvider } from "@/components/theme-provider";
+import { site } from "@/data/site";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -17,11 +18,10 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Learnly — Learn something worth knowing",
-    template: "%s · Learnly",
+    default: site.defaultTitle,
+    template: site.titleTemplate,
   },
-  description:
-    "A small collection of videos, guides, and lessons made to explain things simply.",
+  description: site.shortDescription,
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

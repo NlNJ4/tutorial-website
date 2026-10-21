@@ -1,5 +1,6 @@
 import { GraduationCap } from "lucide-react";
 import Link from "next/link";
+import { site } from "@/data/site";
 
 export function Footer() {
   return (
@@ -13,12 +14,9 @@ export function Footer() {
             <span className="flex size-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
               <GraduationCap className="size-3.5" />
             </span>
-            Learnly
+            {site.siteName}
           </Link>
-          <p className="text-sm text-muted-foreground">
-            A personal place to organize what I know and share it with people I
-            care about.
-          </p>
+          <p className="text-sm text-muted-foreground">{site.tagline}</p>
         </div>
 
         <nav className="flex items-center gap-4 text-sm text-muted-foreground" aria-label="Footer">
@@ -38,7 +36,7 @@ export function Footer() {
       </div>
       <div className="border-t">
         <p className="mx-auto max-w-6xl px-4 py-4 text-xs text-muted-foreground sm:px-6">
-          © {new Date().getFullYear()} Learnly · Made to share what I learn.
+          © {new Date().getFullYear()} {site.siteName} · {site.tagline}
         </p>
       </div>
     </footer>
