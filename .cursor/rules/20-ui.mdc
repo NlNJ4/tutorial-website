@@ -1,0 +1,26 @@
+---
+description: Learnly UI, Tailwind v4, shadcn Radix composition, and accessibility
+globs: "app/**/*.tsx,app/globals.css,components/**/*.tsx,components.json"
+alwaysApply: false
+---
+
+# Extend Learnly's existing design
+
+- Read `components.json`, the relevant components, and `app/globals.css` first. Use the shadcn skill for component work.
+- For visual design or polish, also use the frontend-design skill and `25-design-quality.mdc`. Establish hierarchy and content-specific choices before adding decoration.
+- Preserve the current neutral palette, indigo accent, Geist fonts, whitespace, rounded cards, and restrained motion unless the user asks for a redesign.
+- Use semantic tokens such as `bg-background`, `bg-card`, `text-muted-foreground`, and `text-primary`. Keep light/dark values in `app/globals.css`.
+- Tailwind v4 is configured through CSS and PostCSS. Do not create a Tailwind v3 config or replace the current imports.
+- Reuse `components/ui/` and existing variants before introducing primitives. This project uses **Radix**, `asChild`, and `lucide-react`; do not copy Base UI's `render` API into these wrappers.
+- Inspect the installed component props before following upstream skill examples. Do not upgrade, reinitialize shadcn, apply a preset, or rewrite unrelated forms just to follow a newer example.
+- Use `pnpm exec shadcn --help` to check the installed CLI. Prefer it over unpinned `@latest`; consult version-compatible official docs if a command is unavailable. An intentional dependency upgrade must be part of the task.
+- For a missing standard primitive, use the official `@shadcn` registry; use another registry when the user specifies it. Inspect additions/diffs and preserve local component customizations.
+- Use `@/lib/utils` for application-level conditional classes; preserve generated wrappers' working conventions.
+
+## Interaction checks
+
+- Keep semantic headings, explicit form labels, useful iframe titles, accessible names for icon buttons, keyboard navigation, and visible focus states.
+- Preserve Radix dialog/sheet titles, focus management, and keyboard dismissal. Verify the mobile lesson drawer and navbar menu when changing navigation.
+- Check narrow screens for overflow, the desktop lesson sidebar, and readable light/dark contrast. Respect reduced-motion preferences for new animation.
+- Make search/filter empty states and form errors useful. Review URL-driven filter behavior when changing library navigation.
+- Keep YouTube playback embedded through `youtube-nocookie.com`, with a responsive video aspect ratio and fullscreen support.

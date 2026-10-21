@@ -2,6 +2,9 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
+/* Agent references contain sample classes that are not part of the app. */
+@source not "../.cursor";
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {

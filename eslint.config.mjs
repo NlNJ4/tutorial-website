@@ -7,6 +7,8 @@ const eslintConfig = defineConfig([
   ...nextTs,
   // Override default ignores of eslint-config-next.
   globalIgnores([
+    // Agent skill examples are reference material, not application source.
+    ".cursor/**",
     // Default ignores of eslint-config-next:
     ".next/**",
     "out/**",

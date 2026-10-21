@@ -1,0 +1,24 @@
+---
+description: Collection content, creator output, and browser progress invariants
+globs: "data/**/*.ts,lib/collections.ts,lib/progress.ts,hooks/use-collection-progress.ts,app/create/page.tsx,components/lesson-*.tsx,components/progress-badge.tsx,components/library-browser.tsx"
+alwaysApply: false
+---
+
+# Content and progress
+
+- Use `Collection`, `Lesson`, `Resource`, and `CATEGORIES` from `data/types.ts`. Keep `data/collections.ts` as the content source.
+- Collection IDs/slugs must be nonempty and unique across collections. Lesson IDs must be nonempty and unique within each collection. Keep existing identifiers stable because URLs and saved progress depend on them.
+- Store a bare 11-character YouTube video ID, never an embed URL, in `youtubeId`. Durations are finite nonnegative integer **seconds**.
+- Verify user-supplied video links and resource URLs when adding content. Do not invent video IDs, durations, or availability; identify missing information.
+- A collection cover falls back to the first lesson's thumbnail. Check empty lessons and missing thumbnails before rendering `next/image`.
+- Use helpers in `lib/collections.ts` for lookups, ordering, duration formatting, and search; preserve curated order unless a sort is requested.
+- When editing `/create`, validate generated snippets against the model: valid identifiers, no duplicate lesson IDs, correct duration parsing, and properly escaped text. Keep the manual copy/download publishing workflow unless explicitly changing it.
+
+## Local progress
+
+- Persist under the existing `learnly:progress` key. Preserve backward compatibility or explicitly migrate stored data when changing its shape.
+- Browser storage is optional and untrusted: handle missing, malformed, wrong-shaped, and inaccessible values without breaking playback.
+- Keep server/initial client snapshots consistent through `useSyncExternalStore`. Never read `window` or localStorage in server rendering.
+- Notify subscribed components after writes. Consider cross-tab `storage` events if changing synchronization behavior.
+- Marking a lesson complete is distinct from opening it. Preserve `completed` and `lastLessonId` semantics; recording the latter does not itself implement a resume button.
+- When changing progress, verify complete/uncomplete, navigation, refresh persistence, and unavailable storage; when changing content, verify the affected collection and lesson URLs.

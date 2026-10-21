@@ -16,6 +16,8 @@ No accounts, no payments, no database — everything lives in one TypeScript fil
 
 ## Getting started
 
+For project-specific Cursor skills, rules, and reusable commands, see [`.cursor/README.md`](.cursor/README.md).
+
 ```bash
 pnpm install
 pnpm dev        # http://localhost:3000
