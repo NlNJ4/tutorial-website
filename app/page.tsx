@@ -33,8 +33,12 @@ export default function HomePage() {
           </Link>
         </div>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {featured.slice(0, 6).map((collection) => (
-            <CollectionCard key={collection.slug} collection={collection} />
+          {featured.slice(0, 6).map((collection, index) => (
+            <CollectionCard
+              key={collection.slug}
+              collection={collection}
+              priority={index < 3}
+            />
           ))}
         </div>
       </section>

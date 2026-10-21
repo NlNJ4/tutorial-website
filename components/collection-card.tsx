@@ -16,9 +16,11 @@ import {
 export function CollectionCard({
   collection,
   ctaLabel = "View Collection",
+  priority = false,
 }: {
   collection: Collection;
   ctaLabel?: string;
+  priority?: boolean;
 }) {
   const count = lessonCount(collection);
 
@@ -35,6 +37,8 @@ export function CollectionCard({
           alt=""
           width={480}
           height={270}
+          priority={priority}
+          loading={priority ? "eager" : undefined}
           className="aspect-video w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         />
