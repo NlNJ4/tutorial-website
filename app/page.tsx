@@ -2,6 +2,7 @@ import { ArrowRight, Heart } from "lucide-react";
 import Link from "next/link";
 import { CollectionCard } from "@/components/collection-card";
 import { Hero } from "@/components/hero";
+import { site } from "@/data/site";
 import { getFeaturedCollections, getUsedCategories } from "@/lib/collections";
 
 export default function HomePage() {
@@ -20,7 +21,7 @@ export default function HomePage() {
               Featured Collections
             </h2>
             <p className="mt-1 text-sm text-muted-foreground">
-              Hand-picked starting points from the library.
+              Courses and lesson series to start with.
             </p>
           </div>
           <Link
@@ -68,13 +69,9 @@ export default function HomePage() {
             <Heart className="size-4" aria-hidden />
           </span>
           <h2 className="text-2xl font-semibold tracking-tight">
-            Made to share what I learn.
+            Lessons I teach, in one place.
           </h2>
-          <p className="text-muted-foreground">
-            I created this website as a place to organize things I&rsquo;ve
-            learned and explain them in a simple way for friends, family, and
-            anyone who finds them useful.
-          </p>
+          <p className="text-muted-foreground">{site.creatorNote}</p>
         </div>
       </section>
     </div>

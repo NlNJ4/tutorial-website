@@ -1,6 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { site } from "@/data/site";
 
 export function Hero() {
   return (
@@ -12,11 +13,10 @@ export function Hero() {
       />
       <div className="mx-auto flex max-w-6xl flex-col items-center gap-6 px-4 py-24 text-center sm:px-6 md:py-32">
         <h1 className="max-w-2xl text-4xl font-semibold tracking-tight text-balance sm:text-5xl">
-          Learn something worth knowing.
+          {site.tagline}
         </h1>
         <p className="max-w-xl text-base text-muted-foreground text-balance sm:text-lg">
-          A small collection of videos, guides, and lessons made to explain
-          things simply.
+          {site.shortDescription}
         </p>
         <div className="flex flex-col gap-3 sm:flex-row">
           <Button size="lg" asChild>

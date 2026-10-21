@@ -1,12 +1,25 @@
-import { BookOpen, Code2, Camera, ChefHat, Languages, Music, PiggyBank, Dumbbell, FlaskConical, Laptop, Sparkles } from "lucide-react";
+import {
+  BookOpen,
+  Camera,
+  ChefHat,
+  Code2,
+  Dumbbell,
+  FlaskConical,
+  Languages,
+  Laptop,
+  Music,
+  PiggyBank,
+  ExternalLink,
+  Sparkles,
+} from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { site } from "@/data/site";
 
 export const metadata: Metadata = {
-  title: "About This Project",
-  description:
-    "This website is my personal learning library — videos and resources about things I learn and want to share.",
+  title: "About",
+  description: site.shortDescription,
 };
 
 const interests = [
@@ -23,29 +36,46 @@ const interests = [
 ];
 
 export default function AboutPage() {
+  const hasChannel = site.youtubeChannelUrl.trim().length > 0;
+
   return (
     <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6 md:py-24">
       <h1 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-        About This Project
+        About {site.siteName}
       </h1>
 
       <div className="mt-6 space-y-5 leading-relaxed text-muted-foreground">
-        <p>This website is my personal learning library.</p>
         <p>
-          I use it to organize videos and resources about things I learn and
-          want to share with friends, family, and anyone else who might find
-          them useful.
+          This site is my tutor library — short lesson clips hosted on YouTube,
+          organized into courses so learners can follow a path instead of
+          scrolling a channel.
         </p>
+        <p>{site.creatorNote}</p>
         <p>
-          The topics can be anything — from school subjects and technology to
-          cooking, photography, languages, hobbies, or personal projects.
+          New clips go on YouTube first; I add them here with titles, order,
+          notes, and any worksheets or links learners need beside the video.
         </p>
       </div>
+
+      {hasChannel && (
+        <div className="mt-10">
+          <Button asChild variant="outline">
+            <a
+              href={site.youtubeChannelUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <ExternalLink data-icon="inline-start" />
+              Watch on YouTube
+            </a>
+          </Button>
+        </div>
+      )}
 
       <section className="mt-14">
         <h2 className="flex items-center gap-2 text-xl font-semibold tracking-tight">
           <Sparkles className="size-5 text-primary" aria-hidden />
-          Topics I&rsquo;m interested in
+          Topics I teach
         </h2>
         <div className="mt-6 flex flex-wrap gap-2.5">
           {interests.map(({ label, icon: Icon }) => (
@@ -62,11 +92,11 @@ export default function AboutPage() {
 
       <div className="mt-14 rounded-xl border bg-card p-6 sm:p-8">
         <h2 className="text-lg font-semibold tracking-tight">
-          Want to explore?
+          Ready to watch?
         </h2>
         <p className="mt-2 mb-5 text-sm text-muted-foreground">
-          Everything here is free to browse and watch — no accounts, no
-          tracking, just lessons.
+          Browse courses, pick a lesson, and mark progress on your device — no
+          sign-in required.
         </p>
         <Button asChild>
           <Link href="/library">Open the Library</Link>

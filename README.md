@@ -2,9 +2,9 @@
 
 A personal learning library. One creator organizes educational YouTube videos into simple collections and shares them with family, friends, or anyone through a public link.
 
-**Upload elsewhere → organize → watch → learn → share.**
+**Upload to YouTube → organize here → watch → learn → share.**
 
-No accounts, no payments, no database — everything lives in one TypeScript file.
+No accounts, no payments, no database — everything lives in one TypeScript file. After you publish a tutor clip on YouTube, add it with [`/create`](http://localhost:3000/create) (or edit [`data/collections.ts`](data/collections.ts) directly). You can import a public playlist on the create page to draft many lessons at once, then paste the generated snippet into `collections.ts`.
 
 ## Stack
 
