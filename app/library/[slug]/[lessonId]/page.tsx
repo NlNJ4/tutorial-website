@@ -15,6 +15,7 @@ import {
   getAdjacentLessons,
   getCollectionBySlug,
   getLesson,
+  youtubeThumbnailUrl,
 } from "@/lib/collections";
 
 export function generateStaticParams() {
@@ -35,6 +36,11 @@ export async function generateMetadata({
   return {
     title: `${lesson.title} — ${collection.title}`,
     description: lesson.description,
+    openGraph: {
+      title: lesson.title,
+      description: lesson.description,
+      images: [{ url: youtubeThumbnailUrl(lesson.youtubeId) }],
+    },
   };
 }
 
