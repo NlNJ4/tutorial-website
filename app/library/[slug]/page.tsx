@@ -1,12 +1,12 @@
-import { ArrowLeft, ArrowRight, Clock, PlayCircle } from "lucide-react";
+import { ArrowLeft, Clock, PlayCircle } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { CollectionStartActions } from "@/components/collection-start-actions";
 import { LessonList } from "@/components/lesson-list";
 import { ResourceCard } from "@/components/resource-card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import {
   getAllCollections,
   getCollectionBySlug,
@@ -46,7 +46,6 @@ export default async function CollectionPage({
   if (!collection) notFound();
 
   const count = collection.lessons.length;
-  const firstLesson = collection.lessons[0];
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 md:py-14">
@@ -97,14 +96,13 @@ export default async function CollectionPage({
               {formatTotalDuration(totalDuration(collection))} total
             </span>
           </p>
-          {firstLesson && (
-            <Button size="lg" asChild>
-              <Link href={`/library/${collection.slug}/${firstLesson.id}`}>
-                Start Learning
-                <ArrowRight data-icon="inline-end" />
-              </Link>
-            </Button>
-          )}
+          <CollectionStartActions
+            slug={collection.slug}
+            lessons={collection.lessons.map((l) => ({
+              id: l.id,
+              title: l.title,
+            }))}
+          />
         </div>
       </div>
 
