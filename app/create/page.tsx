@@ -81,6 +81,9 @@ export default function CreatePage() {
   const [generated, setGenerated] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const [playlistUrl, setPlaylistUrl] = useState("");
+  const [playlistLoading, setPlaylistLoading] = useState(false);
+  const [playlistError, setPlaylistError] = useState<string | null>(null);
 
   const slug = useMemo(() => slugifyTitle(title) || "my-collection", [title]);
 
@@ -161,6 +164,61 @@ export default function CreatePage() {
     URL.revokeObjectURL(url);
   }
 
+  async function loadPlaylist() {
+    setPlaylistError(null);
+    if (!playlistUrl.trim()) {
+      setPlaylistError("Paste a public YouTube playlist URL.");
+      return;
+    }
+
+    const hasDraftContent = lessons.some(
+      (l) => l.title.trim() || l.youtubeUrl.trim() || l.description.trim()
+    );
+    if (
+      hasDraftContent &&
+      !window.confirm(
+        "Replace the current lesson rows with videos from this playlist?"
+      )
+    ) {
+      return;
+    }
+
+    setPlaylistLoading(true);
+    try {
+      const res = await fetch(
+        `/api/youtube-playlist?url=${encodeURIComponent(playlistUrl.trim())}`
+      );
+      const data = (await res.json()) as {
+        entries?: { videoId: string; title: string }[];
+        error?: string;
+      };
+      if (!res.ok) {
+        throw new Error(data.error ?? "Could not load playlist.");
+      }
+
+      const entries = data.entries ?? [];
+      if (entries.length === 0) {
+        throw new Error("No videos found in this playlist.");
+      }
+
+      setLessons(
+        entries.map((entry) => ({
+          key: nextKey++,
+          title: entry.title,
+          youtubeUrl: `https://www.youtube.com/watch?v=${entry.videoId}`,
+          duration: "",
+          description: "",
+        }))
+      );
+    } catch (err) {
+      setPlaylistError(
+        err instanceof Error ? err.message : "Could not load playlist."
+      );
+    } finally {
+      setPlaylistLoading(false);
+    }
+  }
+
   return (
     <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6 md:py-16">
       <div className="mb-10">
@@ -168,11 +226,13 @@ export default function CreatePage() {
           Create a Collection
         </h1>
         <p className="mt-2 text-muted-foreground">
-          Fill in the details, publish, and paste the generated code into{" "}
+          Fill in the details, import a public playlist if you like, then paste
+          the generated code into{" "}
           <code className="rounded bg-muted px-1.5 py-0.5 text-sm">
             data/collections.ts
-          </code>{" "}
-          — no backend needed.
+          </code>
+          . Playlist import fills titles and links; add durations manually (RSS
+          does not include length).
         </p>
       </div>
 
@@ -237,6 +297,36 @@ export default function CreatePage() {
               URL will be:{" "}
               <code className="rounded bg-muted px-1 py-0.5">/library/{slug}</code>
             </p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Import from YouTube playlist</CardTitle>
+          </CardHeader>
+          <CardContent className="flex flex-col gap-4">
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="playlist-url">Playlist URL</Label>
+              <Input
+                id="playlist-url"
+                placeholder="https://www.youtube.com/playlist?list=PL…"
+                value={playlistUrl}
+                onChange={(e) => setPlaylistUrl(e.target.value)}
+              />
+            </div>
+            {playlistError && (
+              <p className="text-sm text-destructive" role="alert">
+                {playlistError}
+              </p>
+            )}
+            <Button
+              type="button"
+              variant="secondary"
+              disabled={playlistLoading}
+              onClick={() => void loadPlaylist()}
+            >
+              {playlistLoading ? "Loading…" : "Load playlist"}
+            </Button>
           </CardContent>
         </Card>
 
