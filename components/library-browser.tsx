@@ -96,7 +96,7 @@ export function LibraryBrowser({
             <SelectTrigger className="h-9 w-full bg-card sm:w-44" aria-label="Sort collections">
               <SelectValue placeholder="Sort" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent position="popper" align="end" sideOffset={6}>
               {sortOptions.map((option) => (
                 <SelectItem key={option.value} value={option.value}>
                   {option.label}
