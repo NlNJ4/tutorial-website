@@ -8,15 +8,16 @@ import { LessonList } from "@/components/lesson-list";
 import { ResourceCard } from "@/components/resource-card";
 import { Badge } from "@/components/ui/badge";
 import {
-  getAllCollections,
-  getCollectionBySlug,
+  getPublishedCollections,
+  getPublishedCollectionBySlug,
   collectionThumbnail,
   formatTotalDuration,
+  isLessonPlayable,
   totalDuration,
 } from "@/lib/collections";
 
 export function generateStaticParams() {
-  return getAllCollections().map((c) => ({ slug: c.slug }));
+  return getPublishedCollections().map((c) => ({ slug: c.slug }));
 }
 
 export async function generateMetadata({
@@ -25,7 +26,7 @@ export async function generateMetadata({
   params: PageProps<"/library/[slug]">["params"];
 }): Promise<Metadata> {
   const { slug } = await params;
-  const collection = getCollectionBySlug(slug);
+  const collection = getPublishedCollectionBySlug(slug);
   if (!collection) return { title: "Not Found" };
   return {
     title: collection.title,
@@ -42,7 +43,7 @@ export default async function CollectionPage({
   params,
 }: PageProps<"/library/[slug]">) {
   const { slug } = await params;
-  const collection = getCollectionBySlug(slug);
+  const collection = getPublishedCollectionBySlug(slug);
   if (!collection) notFound();
 
   const count = collection.lessons.length;
@@ -101,6 +102,7 @@ export default async function CollectionPage({
             lessons={collection.lessons.map((l) => ({
               id: l.id,
               title: l.title,
+              playable: isLessonPlayable(l),
             }))}
           />
         </div>

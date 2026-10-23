@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { LibraryBrowser } from "@/components/library-browser";
-import { getAllCollections } from "@/lib/collections";
+import { getPublishedCollections } from "@/lib/collections";
 
 export const metadata: Metadata = {
   title: "Learning Library",
@@ -25,7 +25,7 @@ export default async function LibraryPage({
         </p>
       </div>
       <LibraryBrowser
-        collections={getAllCollections()}
+        collections={getPublishedCollections()}
         initialCategory={initialCategory}
       />
     </div>

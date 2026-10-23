@@ -4,7 +4,8 @@ import { CheckCircle2, PlayCircle } from "lucide-react";
 import Link from "next/link";
 import { useCollectionProgress } from "@/hooks/use-collection-progress";
 import type { Lesson } from "@/data/types";
-import { formatDuration } from "@/lib/collections";
+import { formatDuration, isLessonPlayable } from "@/lib/collections";
+import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
 /**
@@ -17,7 +18,7 @@ export function LessonList({
   currentLessonId,
 }: {
   slug: string;
-  lessons: Pick<Lesson, "id" | "title" | "duration">[];
+  lessons: Pick<Lesson, "id" | "title" | "duration" | "youtubeId" | "status">[];
   currentLessonId?: string;
 }) {
   const { completed } = useCollectionProgress(slug);
@@ -27,6 +28,7 @@ export function LessonList({
       {lessons.map((lesson, index) => {
         const isCurrent = lesson.id === currentLessonId;
         const isDone = completed?.includes(lesson.id) ?? false;
+        const playable = isLessonPlayable(lesson);
 
         return (
           <li key={lesson.id}>
@@ -37,7 +39,8 @@ export function LessonList({
                 "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors",
                 isCurrent
                   ? "bg-primary/10 font-medium text-primary"
-                  : "hover:bg-muted"
+                  : "hover:bg-muted",
+                !playable && "opacity-90"
               )}
             >
               <span
@@ -49,6 +52,11 @@ export function LessonList({
                 {String(index + 1).padStart(2, "0")}
               </span>
               <span className="min-w-0 flex-1 truncate">{lesson.title}</span>
+              {!playable ? (
+                <Badge variant="secondary" className="shrink-0 text-xs">
+                  Coming soon
+                </Badge>
+              ) : null}
               {isDone ? (
                 <CheckCircle2
                   className="size-4 shrink-0 text-primary"

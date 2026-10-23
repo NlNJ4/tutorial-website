@@ -8,18 +8,21 @@ import {
   LessonMobileNav,
 } from "@/components/lesson-sidebar";
 import { ResourceCard } from "@/components/resource-card";
+import { LessonComingSoon } from "@/components/lesson-coming-soon";
 import { YouTubePlayer } from "@/components/youtube-player";
 import { Button } from "@/components/ui/button";
 import {
-  getAllCollections,
+  collectionThumbnail,
   getAdjacentLessons,
-  getCollectionBySlug,
   getLesson,
+  getPublishedCollectionBySlug,
+  getPublishedCollections,
+  isLessonPlayable,
   youtubeThumbnailUrl,
 } from "@/lib/collections";
 
 export function generateStaticParams() {
-  return getAllCollections().flatMap((c) =>
+  return getPublishedCollections().flatMap((c) =>
     c.lessons.map((l) => ({ slug: c.slug, lessonId: l.id }))
   );
 }
@@ -30,16 +33,20 @@ export async function generateMetadata({
   params: PageProps<"/library/[slug]/[lessonId]">["params"];
 }): Promise<Metadata> {
   const { slug, lessonId } = await params;
-  const collection = getCollectionBySlug(slug);
+  const collection = getPublishedCollectionBySlug(slug);
   const lesson = collection && getLesson(collection, lessonId);
   if (!collection || !lesson) return { title: "Not Found" };
+  const ogImage =
+    lesson.youtubeId && isLessonPlayable(lesson)
+      ? youtubeThumbnailUrl(lesson.youtubeId)
+      : collectionThumbnail(collection);
   return {
     title: `${lesson.title} — ${collection.title}`,
     description: lesson.description,
     openGraph: {
       title: lesson.title,
       description: lesson.description,
-      images: [{ url: youtubeThumbnailUrl(lesson.youtubeId) }],
+      images: [{ url: ogImage }],
     },
   };
 }
@@ -48,9 +55,11 @@ export default async function LessonPage({
   params,
 }: PageProps<"/library/[slug]/[lessonId]">) {
   const { slug, lessonId } = await params;
-  const collection = getCollectionBySlug(slug);
+  const collection = getPublishedCollectionBySlug(slug);
   const lesson = collection && getLesson(collection, lessonId);
   if (!collection || !lesson) notFound();
+
+  const playable = isLessonPlayable(lesson);
 
   const lessonIndex = collection.lessons.findIndex((l) => l.id === lessonId);
   const { prev, next } = getAdjacentLessons(collection, lessonId);
@@ -87,7 +96,11 @@ export default async function LessonPage({
       <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
         {/* Main content */}
         <article className="min-w-0">
-          <YouTubePlayer youtubeId={lesson.youtubeId} title={lesson.title} />
+          {playable && lesson.youtubeId ? (
+            <YouTubePlayer youtubeId={lesson.youtubeId} title={lesson.title} />
+          ) : (
+            <LessonComingSoon title={lesson.title} />
+          )}
 
           <div className="mt-6 flex flex-wrap items-start justify-between gap-4">
             <div className="min-w-0">

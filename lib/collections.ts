@@ -4,12 +4,46 @@ import { CATEGORIES, type Category, type Collection, type Lesson } from "@/data/
 export { CATEGORIES };
 export type { Category, Collection, Lesson };
 
+const COURSE_COVER_PLACEHOLDER = "/course-cover-placeholder.svg";
+
+const YOUTUBE_ID_RE = /^[a-zA-Z0-9_-]{11}$/;
+
+export function isCollectionPublished(collection: Collection): boolean {
+  return collection.status !== "draft";
+}
+
+export function getPublishedCollections(): Collection[] {
+  return collections.filter(isCollectionPublished);
+}
+
 export function getAllCollections(): Collection[] {
   return collections;
 }
 
 export function getCollectionBySlug(slug: string): Collection | undefined {
   return collections.find((c) => c.slug === slug);
+}
+
+/** Learner-facing lookup — draft collections are treated as missing. */
+export function getPublishedCollectionBySlug(
+  slug: string
+): Collection | undefined {
+  const collection = getCollectionBySlug(slug);
+  return collection && isCollectionPublished(collection) ? collection : undefined;
+}
+
+export function isLessonPlayable(
+  lesson: Pick<Lesson, "status" | "youtubeId">
+): boolean {
+  if (lesson.status === "coming-soon") return false;
+  const id = lesson.youtubeId?.trim();
+  return Boolean(id && YOUTUBE_ID_RE.test(id));
+}
+
+export function firstPlayableLesson(
+  collection: Collection
+): Lesson | undefined {
+  return collection.lessons.find(isLessonPlayable);
 }
 
 export function getLesson(
@@ -32,13 +66,14 @@ export function getAdjacentLessons(
 }
 
 export function getFeaturedCollections(): Collection[] {
-  const featured = collections.filter((c) => c.featured);
-  return featured.length > 0 ? featured : collections.slice(0, 6);
+  const published = getPublishedCollections();
+  const featured = published.filter((c) => c.featured);
+  return featured.length > 0 ? featured : published.slice(0, 6);
 }
 
 /** Categories that actually have content, ordered by the canonical list. */
 export function getUsedCategories(): Category[] {
-  const used = new Set(collections.map((c) => c.category));
+  const used = new Set(getPublishedCollections().map((c) => c.category));
   return CATEGORIES.filter((c) => used.has(c));
 }
 
@@ -72,12 +107,12 @@ export function youtubeThumbnailUrl(youtubeId: string): string {
   return `https://i.ytimg.com/vi/${youtubeId}/hqdefault.jpg`;
 }
 
-/** Custom thumbnail if set, otherwise the first lesson's YouTube thumbnail. */
+/** Custom thumbnail, else first playable lesson, else neutral placeholder. */
 export function collectionThumbnail(collection: Collection): string {
-  return (
-    collection.thumbnail ??
-    (collection.lessons[0] ? youtubeThumbnailUrl(collection.lessons[0].youtubeId) : "")
-  );
+  if (collection.thumbnail) return collection.thumbnail;
+  const playable = firstPlayableLesson(collection);
+  if (playable?.youtubeId) return youtubeThumbnailUrl(playable.youtubeId);
+  return COURSE_COVER_PLACEHOLDER;
 }
 
 /** Case-insensitive search across titles, descriptions, categories, and lesson titles. */

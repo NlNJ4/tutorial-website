@@ -30,7 +30,7 @@ pnpm start      # serve the production build
 Everything the site displays comes from [`data/collections.ts`](data/collections.ts). Two ways to add content:
 
 1. **By hand** — copy an existing collection object and edit it. Each lesson needs a `title`, `youtubeId`, `duration` (in seconds), and a short `description`. Thumbnails are optional: a collection falls back to its first lesson's YouTube thumbnail automatically.
-2. **With the creator tool** — visit [`/create`](http://localhost:3000/create), fill in the form, and paste the generated code into `data/collections.ts`.
+2. **With the creator tool** — visit `/create` (not linked in the public nav), fill in the form, and paste the generated code into `data/collections.ts`. Set `LEARNLY_CREATE_PASSWORD` in `.env.local` / your host so only you can open `/create` — learners never sign in.
 
 Set `featured: true` on a collection to show it on the home page. Categories come from the canonical list in [`data/types.ts`](data/types.ts) — add your own there if needed.
 
