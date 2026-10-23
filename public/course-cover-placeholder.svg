@@ -1,5 +1,28 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" fill="none">
-  <rect width="1280" height="720" fill="#e4e4e7"/>
-  <rect x="560" y="280" width="160" height="160" rx="24" fill="#a1a1aa"/>
-  <path d="M620 340 L700 380 L620 420 Z" fill="#fafafa"/>
+  <defs>
+    <linearGradient id="bg" x1="80" y1="0" x2="1200" y2="720" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#312e81"/>
+      <stop offset="1" stop-color="#4f46e5"/>
+    </linearGradient>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M48 0H0V48" stroke="#ffffff" stroke-opacity="0.07"/>
+    </pattern>
+  </defs>
+
+  <rect width="1280" height="720" fill="url(#bg)"/>
+  <rect width="1280" height="720" fill="url(#grid)"/>
+  <circle cx="1060" cy="100" r="280" fill="#ffffff" fill-opacity="0.06"/>
+  <circle cx="1210" cy="680" r="220" fill="#ffffff" fill-opacity="0.05"/>
+
+  <g transform="translate(96 500)">
+    <rect width="88" height="88" rx="22" fill="#ffffff"/>
+    <g transform="translate(20 22) scale(2)" stroke="#4f46e5" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/>
+      <path d="M22 10v6"/>
+      <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/>
+    </g>
+  </g>
+
+  <text x="208" y="540" font-family="Geist, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="42" font-weight="600" letter-spacing="-0.5" fill="#ffffff">Learnly</text>
+  <text x="208" y="578" font-family="Geist, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="22" fill="#c7d2fe">Course cover coming soon</text>
 </svg>

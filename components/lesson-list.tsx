@@ -62,15 +62,17 @@ export function LessonList({
                   className="size-4 shrink-0 text-primary"
                   aria-label="Completed"
                 />
-              ) : (
+              ) : playable ? (
                 <PlayCircle
                   className="size-4 shrink-0 text-muted-foreground/50"
                   aria-hidden
                 />
-              )}
-              <span className="shrink-0 text-xs tabular-nums text-muted-foreground">
-                {formatDuration(lesson.duration)}
-              </span>
+              ) : null}
+              {playable ? (
+                <span className="shrink-0 text-xs tabular-nums text-muted-foreground">
+                  {formatDuration(lesson.duration)}
+                </span>
+              ) : null}
             </Link>
           </li>
         );

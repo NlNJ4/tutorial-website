@@ -47,6 +47,7 @@ export default async function CollectionPage({
   if (!collection) notFound();
 
   const count = collection.lessons.length;
+  const total = totalDuration(collection);
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 md:py-14">
@@ -92,10 +93,12 @@ export default async function CollectionPage({
               <PlayCircle className="size-4" aria-hidden />
               {count} {count === 1 ? "lesson" : "lessons"}
             </span>
-            <span className="inline-flex items-center gap-1.5">
-              <Clock className="size-4" aria-hidden />
-              {formatTotalDuration(totalDuration(collection))} total
-            </span>
+            {total > 0 && (
+              <span className="inline-flex items-center gap-1.5">
+                <Clock className="size-4" aria-hidden />
+                {formatTotalDuration(total)} total
+              </span>
+            )}
           </p>
           <CollectionStartActions
             slug={collection.slug}
