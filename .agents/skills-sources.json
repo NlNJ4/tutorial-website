@@ -1,0 +1,51 @@
+{
+  "installation": "Project-local vendored copies at exact upstream commits; no global skills installed",
+  "researchedAt": "2026-10-21",
+  "skills": [
+    {
+      "sourceUrl": "https://github.com/vercel-labs/agent-skills/tree/063bee94c3f4df8453406c830b0a7df0f2860278/skills/react-best-practices",
+      "destination": ".cursor/skills/vercel-react-best-practices",
+      "path": "skills/react-best-practices",
+      "skillSha256": "71ed7794962fa6e803ee83030517b5b93a9f70fbfeb431ec4535c5480a8d8355",
+      "name": "vercel-react-best-practices",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "license": "MIT (declared in SKILL.md)",
+      "repository": "vercel-labs/agent-skills"
+    },
+    {
+      "sourceUrl": "https://github.com/vercel-labs/agent-skills/tree/063bee94c3f4df8453406c830b0a7df0f2860278/skills/web-design-guidelines",
+      "destination": ".cursor/skills/web-design-guidelines",
+      "path": "skills/web-design-guidelines",
+      "skillSha256": "f4647ca866a3accf763777f83e7682954f0187cd6bea7eea0399796652414e8f",
+      "name": "web-design-guidelines",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "license": "Not declared in the skill directory",
+      "repository": "vercel-labs/agent-skills"
+    },
+    {
+      "sourceUrl": "https://github.com/shadcn-ui/ui/tree/ba1503c64472b82256d9de95e2e62c5901a38e8b/skills/shadcn",
+      "additionalFiles": {
+        "destination": "LICENSE.md",
+        "source": "LICENSE.md"
+      },
+      "license": "MIT",
+      "path": "skills/shadcn",
+      "commit": "ba1503c64472b82256d9de95e2e62c5901a38e8b",
+      "name": "shadcn",
+      "repository": "shadcn-ui/ui",
+      "skillSha256": "93951e5e83f616a3e046491c00d770bd54c0a64164706cd1191822a233d27592",
+      "destination": ".cursor/skills/shadcn"
+    },
+    {
+      "destination": ".cursor/skills/frontend-design",
+      "name": "frontend-design",
+      "commit": "dbd4588f9e1033efb41dad4bef2f7947c8993d44",
+      "skillSha256": "d91970639e9f5c37682ac7ab60094d35f1c7c1f38d731bd56396563aee10c1d3",
+      "sourceUrl": "https://github.com/anthropics/skills/tree/dbd4588f9e1033efb41dad4bef2f7947c8993d44/skills/frontend-design",
+      "repository": "anthropics/skills",
+      "path": "skills/frontend-design",
+      "license": "Apache-2.0 (LICENSE.txt included upstream)"
+    }
+  ],
+  "schemaVersion": 1
+}

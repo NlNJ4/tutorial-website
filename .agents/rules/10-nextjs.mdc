@@ -1,0 +1,29 @@
+---
+description: Installed Next.js documentation and App Router conventions
+globs: "app/**/*.tsx,app/**/*.ts,components/**/*.tsx,hooks/**/*.ts,lib/**/*.ts,next.config.ts"
+alwaysApply: false
+---
+
+# Use this repository's Next.js
+
+Before writing Next.js-related code, read the relevant guide under `node_modules/next/dist/docs/`, as required by `AGENTS.md`. Do not assume APIs from another Next.js release. If docs are missing, install locked dependencies with `pnpm install --frozen-lockfile`. If ignored by editor search, read the files through the terminal.
+
+Useful entry points relative to `node_modules/next/dist/docs/`:
+
+- Routes/layouts: `01-app/01-getting-started/03-layouts-and-pages.md`
+- Server/client boundaries: `01-app/01-getting-started/05-server-and-client-components.md`
+- Route params: `01-app/03-api-reference/03-file-conventions/dynamic-routes.md`
+- Prerendered route params: `01-app/03-api-reference/04-functions/generate-static-params.md`
+- Metadata: `01-app/01-getting-started/14-metadata-and-og-images.md`
+- Images/fonts: `01-app/01-getting-started/12-images.md` and `13-fonts.md`
+- Caching: `01-app/01-getting-started/08-caching.md`
+
+## Existing patterns
+
+- Pages/layouts are Server Components by default. Keep browser APIs, events, hooks, and local progress behind focused client boundaries.
+- Await `params` and `searchParams`. Preserve the existing generated `PageProps<...>` / `LayoutProps<...>` types.
+- Collection and lesson pages use `generateStaticParams()` from the content file and `notFound()` for unknown identifiers.
+- `/library` currently reads `searchParams` on the server and renders on demand. Do not describe the entire app as a static export or add `output: "export"` without addressing that behavior and image handling.
+- Use `next/link`, `next/image`, and existing metadata conventions. Check `next.config.ts` before introducing a remote image hostname.
+- Do not introduce Route Handlers, Server Actions, cache directives, or experimental flags without a concrete requirement.
+- Keep the generated Next.js instruction block in `AGENTS.md` intact. Do not hand-edit `.next/` or generated route types.

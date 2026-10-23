@@ -1,0 +1,8 @@
+Review the specified Learnly page for generic AI aesthetics and opportunities for more intentional design.
+
+1. Read `.cursor/rules/00-project.mdc`, `20-ui.mdc`, `25-design-quality.mdc`, and `.cursor/skills/frontend-design/SKILL.md`. Inspect the route and its real content. If no route is supplied, start with the home page.
+2. State the page's audience, primary job, primary action, and existing visual direction in a few sentences. Use Learnly's established brief; ask only for essential missing context.
+3. When a running app and browser tools are available, inspect wide/narrow layouts and light/dark themes. Capture screenshots. If the app is not running, use the existing pnpm dev workflow on an available port; do not disrupt another session. Otherwise, label the review as source-only and note the missing visual evidence.
+4. Assess hierarchy, typography, spacing, section rhythm, content specificity, imagery, containers, copy, interaction states, and unnecessary effects. Preserve useful collection grids and lesson numbering. Check accessibility with the web-design-guidelines skill when relevant.
+5. Report the three most valuable improvements, identifying the affected component, the visible issue, the user benefit, and a concrete adjustment. Distinguish an aesthetic preference from a usability defect. Avoid arbitrary bans on fonts, colors, borders, or cards.
+6. This command requests a review. Implement changes only if my message also asks for them. When implementing, preserve routes and content, compare the rendered result, and follow the project's lint/build checks. State checks and visual verification actually performed.

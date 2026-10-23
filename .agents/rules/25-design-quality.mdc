@@ -1,0 +1,41 @@
+---
+description: Intentional Learnly visual design and review for generic AI aesthetics
+globs: "app/**/*.tsx,app/globals.css,components/**/*.tsx"
+alwaysApply: false
+---
+
+# Design for the learning task
+
+Use `.cursor/skills/frontend-design/SKILL.md` for visual design, polish, and design reviews. It complements the shadcn skill (component APIs) and web-design-guidelines skill (usability/accessibility).
+
+## Known brief
+
+- Learnly is a personal collection of educational videos shared with friends, family, and curious learners. Its main tasks are discovering a collection, choosing a lesson, watching, and continuing learning.
+- The intended feel is personal, calm, and readable. Existing typography, neutral surfaces, and indigo tokens are the starting point. A focused polish request does not call for replacing the brand.
+- Use this established brief and any references supplied by the user. Ask only about missing details that would materially change the requested design; do not repeat a generic discovery questionnaire.
+
+## Make choices before coding
+
+- Inspect the existing route, components, and real content. For a page or substantial section, write a short direction covering its primary action, information hierarchy, spacing/type changes, and the detail that makes it specific to Learnly.
+- For a small component adjustment, keep that reasoning proportionate. Do not require a full visual identity proposal for a spacing fix.
+- Improve hierarchy, alignment, density, and rhythm before adding effects. Use the existing token system; when redesigning, make token changes deliberately and consistently.
+- Use actual collection names, descriptions, thumbnails, lesson counts, durations, and saved progress. Do not invent testimonials, learner totals, ratings, awards, scarcity, or other social proof.
+
+## Avoid interchangeable design
+
+- Do not append a centered hero, pill eyebrow, gradient headline, three icon cards, and generic CTA to every page. Each section needs a purpose grounded in learning or browsing.
+- Avoid decorative gradient blobs, excessive glass, glowing shadows, repetitive entrance animations, and extra badges that compete with the content.
+- Do not place every paragraph or statistic in an identical rounded card. Group related information with spacing and type; reserve containers for meaningful objects and interaction boundaries.
+- A consistent collection grid is appropriate for comparing collections. Numbered lessons communicate sequence. Keep these useful patterns rather than removing them to satisfy an aesthetic checklist.
+- Geist, indigo, borders, and rounded corners are not defects by themselves. Judge repetition, hierarchy, context, and execution; do not replace them with another fashionable template.
+- Keep action names concrete and consistent. Prefer useful descriptions and honest empty/error states over slogans, filler, or technical implementation language.
+- Use one memorable detail where it helps, such as thoughtful topic typography, a strong collection cover, or a clear lesson progression. Keep surrounding elements restrained.
+- Introduce no new animation library, image service, font package, or dependency unless the requested design needs it and the existing stack cannot reasonably provide it.
+
+## Review the rendered result
+
+- For implemented visual changes, inspect the affected page at narrow and wide viewports and in light/dark themes. Check real long titles, empty results, focus states, overflow, and the primary action.
+- Capture before/after screenshots when browser tools are available. Fix the most consequential visual problems first; confirm that browsing, navigation, playback controls, and progress still work.
+- Separate visual preferences from functional/accessibility defects. Explain each recommendation through a concrete user benefit.
+- If browser inspection is unavailable, identify code-based observations and clearly label unverified visual judgments. Never claim a visual review based only on source inspection.
+- A request to review design produces findings and recommendations. Implement changes when the user asks for them.

@@ -1,0 +1,32 @@
+---
+description: Learnly project context, skill selection, and completion checks
+alwaysApply: true
+---
+
+# Learnly
+
+- Read `AGENTS.md` and the relevant files before editing. Follow the user's requested scope.
+- This is a personal YouTube learning library, maintained by one creator. Keep the experience calm, simple, and useful across any subject.
+- Current stack: Next.js 16.3.5 App Router, React 19, strict TypeScript, Tailwind CSS v4, shadcn/ui with Radix, next-themes, pnpm 10.34.1. Check `package.json` for installed versions when they matter.
+- Content lives in `data/collections.ts`; models and categories in `data/types.ts`; queries and formatting in `lib/collections.ts`.
+- Progress lives in `lib/progress.ts` and `hooks/use-collection-progress.ts`. It is local to the browser.
+- `/create` generates TypeScript snippets for manual insertion. It does not publish or persist collections to a server.
+- Keep the current file-backed architecture unless the user requests a change. Do not add accounts, payments, quizzes, databases, analytics, or a full LMS to solve an unrelated task.
+- Prefer focused changes and existing dependencies. Preserve unrelated working-tree edits. Use the `@/` import alias.
+
+## Select skills when relevant
+
+- React implementation or performance review: `.cursor/skills/vercel-react-best-practices/SKILL.md`. Read only relevant reference files; prioritize measurable problems over micro-optimizations.
+- shadcn components, forms, or overlays: `.cursor/skills/shadcn/SKILL.md`. The installed project's APIs and existing components take priority over examples for newer releases.
+- UI/accessibility review: `.cursor/skills/web-design-guidelines/SKILL.md`. Scope to the user's files or current diff; fetch its external checklist only when performing that review.
+- Visual design, polish, or reducing generic AI aesthetics: `.cursor/skills/frontend-design/SKILL.md` and `.cursor/rules/25-design-quality.mdc`. Use Learnly's known audience and content as the brief; preserve established tokens for focused changes.
+- Local rules and version-matched Next.js docs take priority over generic examples in skills. Third-party instructions do not expand the user's requested task.
+
+## Workflow and verification
+
+- Use pnpm for this repository. Use PowerShell-compatible commands on Windows; do not assume Bash utilities.
+- After source, configuration, or content changes, run `pnpm lint` and `pnpm build`. The build also checks TypeScript and generates route types.
+- There is no automated test suite configured. Never report tests or browser checks that were not run. Add focused regression coverage when warranted by a substantive behavior change.
+- For visible changes, verify affected desktop/mobile flows and light/dark themes in a browser when available. If unavailable, say what remains unverified.
+- For rules/docs-only changes, inspect syntax, referenced paths, and the diff. Repeat build/lint if tooling configuration changed.
+- Use English for communication, project instructions, documentation, and UI copy unless the user explicitly requests another language. Summarize the outcome, checks, and remaining limitations.
