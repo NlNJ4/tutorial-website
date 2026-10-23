@@ -60,6 +60,7 @@ export default async function LessonPage({
   if (!collection || !lesson) notFound();
 
   const playable = isLessonPlayable(lesson);
+  const showLessonNav = collection.lessons.length > 1;
 
   const lessonIndex = collection.lessons.findIndex((l) => l.id === lessonId);
   const { prev, next } = getAdjacentLessons(collection, lessonId);
@@ -84,16 +85,24 @@ export default async function LessonPage({
       </nav>
 
       {/* Mobile lesson drawer */}
-      <div className="mb-4">
-        <LessonMobileNav
-          slug={collection.slug}
-          collectionTitle={collection.title}
-          lessons={collection.lessons}
-          currentLessonId={lesson.id}
-        />
-      </div>
+      {showLessonNav && (
+        <div className="mb-4">
+          <LessonMobileNav
+            slug={collection.slug}
+            collectionTitle={collection.title}
+            lessons={collection.lessons}
+            currentLessonId={lesson.id}
+          />
+        </div>
+      )}
 
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
+      <div
+        className={
+          showLessonNav
+            ? "grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px]"
+            : "mx-auto grid max-w-4xl gap-8"
+        }
+      >
         {/* Main content */}
         <article className="min-w-0">
           {playable && lesson.youtubeId ? (
@@ -185,12 +194,14 @@ export default async function LessonPage({
         </article>
 
         {/* Desktop sidebar */}
-        <LessonDesktopSidebar
-          slug={collection.slug}
-          collectionTitle={collection.title}
-          lessons={collection.lessons}
-          currentLessonId={lesson.id}
-        />
+        {showLessonNav && (
+          <LessonDesktopSidebar
+            slug={collection.slug}
+            collectionTitle={collection.title}
+            lessons={collection.lessons}
+            currentLessonId={lesson.id}
+          />
+        )}
       </div>
     </div>
   );
